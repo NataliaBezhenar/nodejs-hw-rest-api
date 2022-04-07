@@ -42,7 +42,7 @@ const updateContact = async (contactId, body) => {
   if (idx === -1) {
     return null;
   }
-  contacts[idx] = { ...body, contactId };
+  contacts[idx] = { ...body, id: contactId };
   await updateContacts(contacts);
   return contacts[idx];
 };
