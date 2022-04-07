@@ -34,9 +34,7 @@ router.get("/:contactId", async (req, res, next) => {
     const { contactId } = req.params;
     const result = await contactOperations.getContactById(contactId);
     if (!result) {
-      const error = new Error(`Contact with id=${contactId} not found`);
-      error.status = 404;
-      throw error;
+      throwNotFoundError();
     }
     res.json({ status: "success", code: 200, data: { result } });
   } catch (error) {
@@ -66,16 +64,14 @@ router.post("/", async (req, res, next) => {
 router.delete("/:contactId", async (req, res, next) => {
   try {
     const { contactId } = req.params;
-
     const result = await contactOperations.removeContact(contactId);
     if (!result) {
-      const error = new Error(`Contact with id=${contactId} not found`);
-      error.status = 404;
-      throw error;
+      throwNotFoundError();
     }
     res.status(200).json({
       status: "success",
       code: 200,
+      message: "contact deleted",
       data: { result },
     });
   } catch (error) {
@@ -88,25 +84,28 @@ router.put("/:contactId", async (req, res, next) => {
     const { error } = contactSchema.validate(req.body);
     if (error) {
       error.status = 400;
-      error.message = "Missing required name field";
+      error.message = "missing fields";
       throw error;
     }
     const { contactId } = req.params;
     const result = await contactOperations.updateContact(contactId, req.body);
     if (!result) {
-      const error = new Error(`Contact with id=${contactId} not found`);
-      error.status = 404;
-      throw error;
+      throwNotFoundError();
     }
     res.json({
       status: "success",
       code: 200,
-      message: "contact deleted",
       data: { result },
     });
   } catch (error) {
     next(error);
   }
 });
+
+const throwNotFoundError = () => {
+  const error = new Error("Not found");
+  error.status = 404;
+  throw error;
+};
 
 module.exports = router;
