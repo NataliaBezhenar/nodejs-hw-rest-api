@@ -28,9 +28,8 @@ const joiSchema = Joi.object({
   email: Joi.string(),
   phone: Joi.string(),
   favorite: Joi.bool(),
-  id: Joi.string(),
 });
 
-module.exports = contactSchema;
+const favoriteJoiSchema = Joi.object({ favorite: Joi.bool().required() });
 
-module.exports = { Contact, joiSchema };
+module.exports = { Contact, joiSchema, favoriteJoiSchema };

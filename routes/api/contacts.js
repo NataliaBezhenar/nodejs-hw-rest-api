@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { contacts: controlls } = require("../../controllers");
 const { validation, controllsWrapper } = require("../../middlewares");
-const { joiSchema } = require("../../models/contact");
+const { joiSchema, favoriteJoiSchema } = require("../../models/contact");
 
 router.get("/", controllsWrapper(controlls.listContacts));
 
@@ -17,6 +17,12 @@ router.put(
   "/:contactId",
   validation(joiSchema),
   controllsWrapper(controlls.updateContact)
+);
+
+router.patch(
+  "/:contactId/favorite",
+  validation(favoriteJoiSchema),
+  controllsWrapper(controlls.updateFavoriteField)
 );
 
 module.exports = router;
