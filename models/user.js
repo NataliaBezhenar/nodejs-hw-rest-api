@@ -30,7 +30,17 @@ const User = model("user", userSchema);
 const joiUserSchema = Joi.object({
   password: Joi.string().required(),
   email: Joi.string().required(),
-  subscription: Joi.string().valid("starter", "pro", "business"),
+  subscription: Joi.string()
+    .valid("starter", "pro", "business")
+    .default("starter"),
 });
 
-module.exports = { User, joiUserSchema };
+const joiSignupSchema = Joi.object({
+  password: Joi.string().required(),
+  email: Joi.string().required(),
+  subscription: Joi.string()
+    .valid("starter", "pro", "business")
+    .default("starter"),
+});
+
+module.exports = { User, joiUserSchema, joiSignupSchema };
