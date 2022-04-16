@@ -1,7 +1,7 @@
 const express = require("express");
 
 const { users: ctrl } = require("../../controllers");
-const { validation, controllsWrapper } = require("../../middlewares");
+const { validation, controllsWrapper, auth } = require("../../middlewares");
 const { joiSignupSchema, joiLoginSchema } = require("../../models/user");
 
 const router = express.Router();
@@ -13,5 +13,11 @@ router.post(
 );
 
 router.post("/login", validation(joiLoginSchema), controllsWrapper(ctrl.login));
+
+router.get(
+  "/current",
+  controllsWrapper(auth),
+  controllsWrapper(ctrl.getCurrent)
+);
 
 module.exports = router;
