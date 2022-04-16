@@ -2,14 +2,23 @@ const express = require("express");
 const router = express.Router();
 
 const { contacts: controlls } = require("../../controllers");
-const { validation, controllsWrapper } = require("../../middlewares");
+const { validation, controllsWrapper, auth } = require("../../middlewares");
 const { joiSchema, favoriteJoiSchema } = require("../../models/contact");
 
-router.get("/", controllsWrapper(controlls.listContacts));
+router.get(
+  "/",
+  controllsWrapper(auth),
+  controllsWrapper(controlls.listContacts)
+);
 
 router.get("/:contactId", controllsWrapper(controlls.getContactById));
 
-router.post("/", validation(joiSchema), controllsWrapper(controlls.addContact));
+router.post(
+  "/",
+  controllsWrapper(auth),
+  validation(joiSchema),
+  controllsWrapper(controlls.addContact)
+);
 
 router.delete("/:contactId", controllsWrapper(controlls.removeContact));
 
