@@ -20,4 +20,6 @@ router.get(
   controllsWrapper(ctrl.getCurrent)
 );
 
+router.get("/logout", controllsWrapper(auth), controllsWrapper(ctrl.logout));
+
 module.exports = router;
