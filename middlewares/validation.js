@@ -3,7 +3,7 @@ const validation = (schema) => {
     const { error } = schema.validate(req.body);
     if (error) {
       error.status = 400;
-      error.message = "Missing required name field";
+      error.message = "Joi error or another validation error";
       next(error);
     }
     next();
