@@ -4,8 +4,12 @@ const throwNotFoundError = require("./throwNotFoundError");
 
 const getContactById = async (req, res) => {
   const { contactId } = req.params;
+
   if (mongoose.Types.ObjectId.isValid(contactId)) {
-    const result = await Contact.findById(contactId);
+    const result = await Contact.findOne({
+      _id: contactId,
+      owner: req.user._id,
+    });
     if (!result) {
       throwNotFoundError();
     }

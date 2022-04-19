@@ -4,8 +4,11 @@ const throwNotFoundError = require("./throwNotFoundError");
 const updateFavoriteField = async (req, res) => {
   const { contactId } = req.params;
   const { favorite } = req.body;
-  const result = await Contact.findByIdAndUpdate(
-    contactId,
+  const result = await Contact.findOneAndUpdate(
+    {
+      _id: contactId,
+      owner: req.user._id,
+    },
     { favorite },
     {
       new: true,
