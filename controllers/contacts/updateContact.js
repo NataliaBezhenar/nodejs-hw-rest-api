@@ -3,9 +3,16 @@ const throwNotFoundError = require("./throwNotFoundError");
 
 const updateContact = async (req, res) => {
   const { contactId } = req.params;
-  const result = await Contact.findByIdAndUpdate(contactId, req.body, {
-    new: true,
-  });
+  const result = await Contact.findOneAndUpdate(
+    {
+      _id: contactId,
+      owner: req.user._id,
+    },
+    req.body,
+    {
+      new: true,
+    }
+  );
   if (!result) {
     throwNotFoundError();
   }

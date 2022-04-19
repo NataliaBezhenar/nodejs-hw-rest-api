@@ -11,7 +11,11 @@ router.get(
   controllsWrapper(controlls.listContacts)
 );
 
-router.get("/:contactId", controllsWrapper(controlls.getContactById));
+router.get(
+  "/:contactId",
+  controllsWrapper(auth),
+  controllsWrapper(controlls.getContactById)
+);
 
 router.post(
   "/",
@@ -20,17 +24,23 @@ router.post(
   controllsWrapper(controlls.addContact)
 );
 
-router.delete("/:contactId", controllsWrapper(controlls.removeContact));
+router.delete(
+  "/:contactId",
+  controllsWrapper(auth),
+  controllsWrapper(controlls.removeContact)
+);
 
 router.put(
   "/:contactId",
   validation(joiSchema),
+  controllsWrapper(auth),
   controllsWrapper(controlls.updateContact)
 );
 
 router.patch(
   "/:contactId/favorite",
   validation(favoriteJoiSchema),
+  controllsWrapper(auth),
   controllsWrapper(controlls.updateFavoriteField)
 );
 
