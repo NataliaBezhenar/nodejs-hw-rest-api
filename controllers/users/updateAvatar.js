@@ -11,7 +11,7 @@ const updateAvatar = async (req, res) => {
   const [, extention] = originalname.split(".");
   const newFileName = `${uuidv4()}.${extention}`;
   const resultUpload = path.join(AVATAR_DIR, "avatars", newFileName);
-  const avatarURL = path.join("public", "avatars", newFileName);
+  const avatarURL = path.join("avatars", newFileName);
   const { _id } = req.user;
 
   try {
