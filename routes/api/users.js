@@ -7,7 +7,11 @@ const {
   auth,
   fileUpload,
 } = require("../../middlewares");
-const { joiSignupSchema, joiLoginSchema } = require("../../models/user");
+const {
+  joiSignupSchema,
+  joiLoginSchema,
+  joiVerificationSchema,
+} = require("../../models/user");
 
 const router = express.Router();
 
@@ -34,4 +38,11 @@ router.patch(
   controllsWrapper(ctrl.updateAvatar)
 );
 
+router.get("/verify/:verificationToken", controllsWrapper(ctrl.verifyEmail));
+
+router.post(
+  "/verify",
+  validation(joiVerificationSchema),
+  controllsWrapper(ctrl.repeatVerifyEmail)
+);
 module.exports = router;
